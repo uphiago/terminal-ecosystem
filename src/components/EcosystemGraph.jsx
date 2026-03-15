@@ -7,6 +7,7 @@ import {
   Background,
   Controls,
   MiniMap,
+  Panel,
   Handle,
   Position,
 } from '@xyflow/react'
@@ -221,6 +222,7 @@ export default function EcosystemGraph() {
   const gt = t.graph
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [locked, setLocked] = useState(true)
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -259,14 +261,27 @@ export default function EcosystemGraph() {
           minZoom={0.3}
           maxZoom={2}
           proOptions={{ hideAttribution: true }}
+          panOnDrag={!locked}
+          zoomOnScroll={!locked}
+          zoomOnPinch={!locked}
+          zoomOnDoubleClick={!locked}
+          nodesDraggable={!locked}
+          preventScrolling={!locked}
         >
           <Background color="rgba(255,255,255,0.04)" gap={24} />
-          <Controls />
-          <MiniMap
-            nodeColor={(n) => CATEGORY_COLORS[n.data?.category] || '#333'}
-            maskColor="rgba(7,9,15,0.8)"
-            style={{ background: 'rgba(13,17,23,0.9)', border: '1px solid rgba(255,255,255,0.08)' }}
-          />
+          {!locked && <Controls />}
+          {!locked && (
+            <MiniMap
+              nodeColor={(n) => CATEGORY_COLORS[n.data?.category] || '#333'}
+              maskColor="rgba(7,9,15,0.8)"
+              style={{ background: 'rgba(13,17,23,0.9)', border: '1px solid rgba(255,255,255,0.08)' }}
+            />
+          )}
+          <Panel position="top-right">
+            <button className="graph-lock-btn mono" onClick={() => setLocked(l => !l)}>
+              {locked ? 'unlock' : 'lock'}
+            </button>
+          </Panel>
         </ReactFlow>
       </div>
     </section>

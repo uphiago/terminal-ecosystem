@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useLang } from '../LanguageContext'
 import { layerTranslations } from '../i18n'
 import './LayerDiagram.css'
-
-const LAYER_DURATION = 3800
 
 const TOOL_LINKS = {
   'Alacritty':        'https://github.com/alacritty/alacritty',
@@ -24,7 +22,7 @@ const TOOL_LINKS = {
   'git':              'https://github.com/git/git',
   'docker':           'https://github.com/docker/docker-ce',
   'kubectl':          'https://github.com/kubernetes/kubectl',
-  'grep':             'https://www.gnu.org/software/grep/',
+  'ripgrep':          'https://github.com/BurntSushi/ripgrep',
   'vim':              'https://github.com/vim/vim',
   'terraform':        'https://github.com/hashicorp/terraform',
   'node':             'https://github.com/nodejs/node',
@@ -40,7 +38,7 @@ const LAYER_STATIC = {
   multiplexer:{ color: '#bc8cff', accent: 'rgba(188,140,255,0.15)', icon: '⊞',  tools: ['tmux', 'zellij'], optional: true },
   shell:      { color: '#3fb950', accent: 'rgba(63,185,80,0.15)',   icon: '$',   tools: ['bash', 'zsh', 'fish', 'powershell'] },
   framework:  { color: '#ff9442', accent: 'rgba(255,148,66,0.15)',  icon: '⚙',  tools: ['Oh My Zsh', 'Prezto', 'Starship', 'Powerlevel10k'], optional: true },
-  cli:        { color: '#39d353', accent: 'rgba(57,211,83,0.15)',   icon: '>_', tools: ['git', 'docker', 'kubectl', 'grep', 'vim', 'terraform', 'node'] },
+  cli:        { color: '#39d353', accent: 'rgba(57,211,83,0.15)',   icon: '>_', tools: ['git', 'docker', 'kubectl', 'ripgrep', 'vim', 'terraform', 'node'] },
   kernel:     { color: '#f85149', accent: 'rgba(248,81,73,0.15)',   icon: '◎',  tools: ['Linux', 'macOS', 'Windows'] },
 }
 
@@ -74,28 +72,12 @@ export default function LayerDiagram() {
     ...tr,
   }))
 
-  const total = LAYERS.length
   const [activeIdx, setActiveIdx] = useState(0)
-  const timerRef = useRef(null)
-
-  function startLoop(fromIdx) {
-    clearInterval(timerRef.current)
-    timerRef.current = setInterval(() => {
-      setActiveIdx(prev => (prev + 1) % total)
-    }, LAYER_DURATION)
-  }
-
-  useEffect(() => {
-    startLoop(0)
-    return () => clearInterval(timerRef.current)
-  }, [total])
+  const [clicked, setClicked] = useState(false)
 
   function handleClick(i) {
-    clearInterval(timerRef.current)
     setActiveIdx(i)
-    timerRef.current = setInterval(() => {
-      setActiveIdx(prev => (prev + 1) % total)
-    }, LAYER_DURATION)
+    if (!clicked) setClicked(true)
   }
 
   const activeLayer = LAYERS[activeIdx]
@@ -137,7 +119,55 @@ export default function LayerDiagram() {
                     <span className="tool-chip mono muted">+{layer.tools.length - 3}</span>
                   )}
                 </div>
+                {!clicked && <span className="layer-hint-dot" />}
               </button>
+
+              {/* Mobile inline detail — hidden on desktop */}
+              {activeIdx === i && (
+                <div className="layer-inline-detail" style={{ '--color': layer.color }}>
+                  <p className="lid-text">{layer.details}</p>
+
+                  {layer.misconception && (
+                    <div className="lid-misconception">
+                      <span className="lid-misconception-icon">⚠</span>
+                      <p>{layer.misconception}</p>
+                    </div>
+                  )}
+
+                  {layer.facts?.length > 0 && (
+                    <div className="lid-section">
+                      <div className="lid-section-label mono">{lt.factsLabel}</div>
+                      <ul className="lid-facts">
+                        {layer.facts.map((f, fi) => (
+                          <li key={fi}>{f}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {layer.toolDetails?.length > 0 && (
+                    <div className="lid-section">
+                      <div className="lid-section-label mono">{lt.toolsLabel}</div>
+                      <div className="lid-tool-list">
+                        {layer.toolDetails.map(td => {
+                          const url = TOOL_LINKS[td.name]
+                          return (
+                            <div key={td.name} className="lid-tool-row">
+                              <div className="lid-tool-name mono">
+                                {url
+                                  ? <a href={url} target="_blank" rel="noopener noreferrer" className="lid-tool-link" onClick={e => e.stopPropagation()}>{td.name} <span>↗</span></a>
+                                  : td.name
+                                }
+                              </div>
+                              <div className="lid-tool-desc">{td.desc}</div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {i < LAYERS.length - 1 && (
                 <div className="layer-connector">

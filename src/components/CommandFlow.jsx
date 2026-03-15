@@ -6,7 +6,7 @@ import './CommandFlow.css'
 // Static non-translatable data per step id
 const STEP_STATIC = {
   keyboard:   { icon: '⌨',  color: '#e6edf3', direction: 'down',  payload: 'g i t   s t a t u s ⏎' },
-  emulator:   { icon: '🖥',  color: '#58a6ff', direction: 'down',  payload: '"git status\\n"' },
+  emulator:   { icon: '▣',  color: '#58a6ff', direction: 'down',  payload: '"git status\\n"' },
   shell:      { icon: '$_', color: '#3fb950', direction: 'down',  payload: 'argv = ["git", "status"]' },
   fork:       { icon: '⑂',  color: '#bc8cff', direction: 'down',  payload: 'pid = fork()\nexecve("/usr/bin/git", …)' },
   kernel:     { icon: '◎',  color: '#ff9442', direction: 'down',  payload: 'open(".git/HEAD")\nread() → stat()' },
@@ -22,6 +22,7 @@ export default function CommandFlow() {
   const [active, setActive] = useState(0)
   const [pulse, setPulse] = useState(false)
   const timerRef = useRef(null)
+  const sectionRef = useRef(null)
 
   // Merge static data with translated strings
   const STEPS = stepTranslations[lang].map(tr => ({
@@ -37,23 +38,8 @@ export default function CommandFlow() {
     setTimeout(() => setPulse(false), 500)
   }, [])
 
-  // autoplay — loop infinito
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setActive(prev => {
-        const next = (prev + 1) % total
-        setPulse(true)
-        setTimeout(() => setPulse(false), 500)
-        return next
-      })
-    }, STEP_DURATION)
-    return () => clearInterval(timerRef.current)
-  }, [total])
-
-  // ao clicar num dot: pula para ele e o loop continua de lá
-  function handleDotClick(i) {
+  function startTimer() {
     clearInterval(timerRef.current)
-    goTo(i)
     timerRef.current = setInterval(() => {
       setActive(prev => {
         const next = (prev + 1) % total
@@ -64,10 +50,30 @@ export default function CommandFlow() {
     }, STEP_DURATION)
   }
 
+  // Pause autoplay when section is out of view
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) startTimer()
+        else clearInterval(timerRef.current)
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(section)
+    return () => { observer.disconnect(); clearInterval(timerRef.current) }
+  }, [total])
+
+  function handleDotClick(i) {
+    goTo(i)
+    startTimer()
+  }
+
   const current = STEPS[active]
 
   return (
-    <section id="flow" className="flow-section">
+    <section id="flow" className="flow-section" ref={sectionRef}>
       <div className="section-label">{ft.label}</div>
       <h2 className="section-title">
         {ft.title} <span>git status</span>
