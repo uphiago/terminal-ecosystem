@@ -1,7 +1,3 @@
-.flow-section {
-  background: linear-gradient(180deg, transparent, rgba(88,166,255,0.03) 50%, transparent);
-}
-
 /* ── root layout ── */
 .flow-root {
   display: grid;
