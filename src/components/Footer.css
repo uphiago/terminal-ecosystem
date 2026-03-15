@@ -79,6 +79,20 @@
   opacity: 1;
 }
 
+.footer-x {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.footer-x:hover { color: rgba(255, 255, 255, 0.7); }
+.footer-x svg { flex-shrink: 0; opacity: 0.6; transition: opacity 0.2s; }
+.footer-x:hover svg { opacity: 1; }
+
 .footer-github {
   display: flex;
   align-items: center;
