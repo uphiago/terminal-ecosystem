@@ -88,9 +88,15 @@ export default function LayerDiagram() {
     return () => ro.disconnect()
   }, [])
 
-  function handleClick(i) {
+  function handleClick(i, el) {
     setActiveIdx(i)
     if (!clicked) setClicked(true)
+    // On mobile: reanchor the clicked row after layout shift
+    if (el && window.innerWidth <= 900) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 20)
+    }
   }
 
   const activeLayer = LAYERS[activeIdx]
@@ -112,7 +118,7 @@ export default function LayerDiagram() {
               <button
                 className={`layer-block glass-card ${activeIdx === i ? 'active' : ''}`}
                 style={{ '--accent': layer.accent, '--color': layer.color }}
-                onClick={() => handleClick(i)}
+                onClick={e => handleClick(i, e.currentTarget.closest('.layer-row'))}
               >
                 <div className="layer-left">
                   <span className="layer-icon mono" style={{ color: layer.color }}>{layer.icon}</span>
