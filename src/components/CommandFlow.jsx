@@ -21,6 +21,7 @@ export default function CommandFlow() {
   const ft = t.flow
   const [active, setActive] = useState(0)
   const [pulse, setPulse] = useState(false)
+  const [started, setStarted] = useState(false)
   const timerRef = useRef(null)
   const sectionRef = useRef(null)
 
@@ -50,14 +51,18 @@ export default function CommandFlow() {
     }, STEP_DURATION)
   }
 
-  // Pause autoplay when section is out of view
+  // Start only when section enters viewport; pause when it leaves
   useEffect(() => {
     const section = sectionRef.current
     if (!section) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) startTimer()
-        else clearInterval(timerRef.current)
+        if (entry.isIntersecting) {
+          setStarted(true)
+          startTimer()
+        } else {
+          clearInterval(timerRef.current)
+        }
       },
       { threshold: 0.1 }
     )
@@ -99,8 +104,8 @@ export default function CommandFlow() {
 
           <div className="flow-nodes">
             {STEPS.map((step, i) => {
-              const isActive = i === active
-              const isDone = i < active
+              const isActive = started && i === active
+              const isDone = started && i < active
               const isReturn = step.direction === 'up'
 
               return (
@@ -203,7 +208,7 @@ export default function CommandFlow() {
               {STEPS.map((s, i) => (
                 <button
                   key={s.id}
-                  className={`fd-progress-dot ${i === active ? 'active' : ''} ${i < active ? 'done' : ''}`}
+                  className={`fd-progress-dot ${started && i === active ? 'active' : ''} ${started && i < active ? 'done' : ''}`}
                   style={{ '--c': s.color }}
                   onClick={() => handleDotClick(i)}
                   title={s.label}
