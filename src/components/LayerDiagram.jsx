@@ -36,7 +36,7 @@ const TOOL_LINKS = {
 // Static non-translatable data per layer id
 const LAYER_STATIC = {
   user:       { color: '#e6edf3', accent: 'rgba(230,237,243,0.15)', icon: '⌨',  tools: ['Teclado', 'Monitor'] },
-  emulator:   { color: '#58a6ff', accent: 'rgba(88,166,255,0.15)',  icon: '🖥',  tools: ['Alacritty', 'Kitty', 'WezTerm', 'Windows Terminal', 'iTerm2'] },
+  emulator:   { color: '#58a6ff', accent: 'rgba(88,166,255,0.15)',  icon: '▣',  tools: ['Alacritty', 'Kitty', 'WezTerm', 'Windows Terminal', 'iTerm2'] },
   multiplexer:{ color: '#bc8cff', accent: 'rgba(188,140,255,0.15)', icon: '⊞',  tools: ['tmux', 'zellij'], optional: true },
   shell:      { color: '#3fb950', accent: 'rgba(63,185,80,0.15)',   icon: '$',   tools: ['bash', 'zsh', 'fish', 'powershell'] },
   framework:  { color: '#ff9442', accent: 'rgba(255,148,66,0.15)',  icon: '⚙',  tools: ['Oh My Zsh', 'Prezto', 'Starship', 'Powerlevel10k'], optional: true },

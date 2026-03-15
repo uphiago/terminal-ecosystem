@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 24px;
-  align-items: start;
+  align-items: stretch; /* both columns always same height = no layout shift */
 }
 
 @media (max-width: 900px) {
@@ -156,9 +156,16 @@
 
 /* ── detail panel ── */
 .layer-detail {
-  position: sticky;
-  top: 80px;
-  align-self: start;
+  /* fills the grid cell height set by the layer-stack column */
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.015);
+  backdrop-filter: blur(14px);
 }
 
 /* content cross-fade */
@@ -166,10 +173,7 @@
   padding: 0;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid var(--glass-border);
   border-top: 2px solid var(--color);
-  background: rgba(255,255,255,0.025);
-  backdrop-filter: blur(14px);
   animation: detailFade 0.22s ease;
 }
 

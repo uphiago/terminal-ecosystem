@@ -10,7 +10,7 @@ const STEP_STATIC = {
   shell:      { icon: '$_', color: '#3fb950', direction: 'down',  payload: 'argv = ["git", "status"]' },
   fork:       { icon: '⑂',  color: '#bc8cff', direction: 'down',  payload: 'pid = fork()\nexecve("/usr/bin/git", …)' },
   kernel:     { icon: '◎',  color: '#ff9442', direction: 'down',  payload: 'open(".git/HEAD")\nread() → stat()' },
-  filesystem: { icon: '📁', color: '#39d353', direction: 'up',    payload: '.git/HEAD\n.git/index\n.git/refs/…' },
+  filesystem: { icon: '▤',  color: '#39d353', direction: 'up',    payload: '.git/HEAD\n.git/index\n.git/refs/…' },
   output:     { icon: '▶',  color: '#58a6ff', direction: 'up',    payload: 'On branch main\nnothing to commit' },
 }
 
