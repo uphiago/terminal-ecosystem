@@ -1,5 +1,10 @@
 # shellcraft
 
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![React](https://img.shields.io/badge/react-18-61dafb?logo=react&logoColor=white)](https://react.dev)
+[![Vite](https://img.shields.io/badge/vite-6-646cff?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Vercel](https://img.shields.io/github/deployments/uphiago/shellcraft/production?label=vercel&logo=vercel&logoColor=white)](https://shellcraft.vercel.app)
+
 Maps every layer between your keyboard and the kernel — interactive diagrams, animated execution flow, and tool links. PT-BR / EN.
 
 **Live:** [shellcraft.vercel.app](https://shellcraft.vercel.app)
