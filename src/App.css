@@ -30,7 +30,12 @@ section {
 }
 
 .section-title span {
-  background: linear-gradient(135deg, var(--blue), var(--purple));
+  background: linear-gradient(135deg,
+    oklch(72% 0.18 250) 0%,
+    oklch(68% 0.22 270) 35%,
+    oklch(65% 0.2 300) 65%,
+    oklch(72% 0.15 310) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

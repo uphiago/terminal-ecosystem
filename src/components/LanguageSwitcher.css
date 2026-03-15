@@ -1,0 +1,130 @@
+.lang-switcher {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 100;
+  font-size: 22px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.lang-switcher:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: scale(1.08);
+}
+
+.lang-switcher:active {
+  transform: scale(0.96);
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.lang-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.lang-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.lang-chevron {
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.lang-chevron.open {
+  transform: rotate(180deg);
+}
+
+.lang-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 100px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(13, 17, 23, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  z-index: 101;
+  animation: langDropIn 0.15s ease;
+}
+
+@keyframes langDropIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  transition: background 0.15s, color 0.15s;
+  text-align: left;
+}
+
+.lang-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.lang-option.active {
+  color: var(--blue);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.lang-option .lang-flag {
+  font-size: 15px;
+}
+
+.lang-option .lang-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: inherit;
+}

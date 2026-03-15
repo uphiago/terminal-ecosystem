@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLang } from '../LanguageContext'
+import { layerTranslations } from '../i18n'
 import './LayerDiagram.css'
 
 const TOOL_LINKS = {
@@ -29,80 +31,16 @@ const TOOL_LINKS = {
   'Windows':          'https://www.microsoft.com/windows',
 }
 
-const LAYERS = [
-  {
-    id: 'user',
-    label: 'Usuário',
-    color: '#e6edf3',
-    accent: 'rgba(230,237,243,0.15)',
-    icon: '⌨',
-    tools: ['Teclado', 'Monitor'],
-    desc: 'Você — quem digita e lê o output.',
-    details: 'O ponto de entrada de tudo. Você pressiona teclas, o terminal exibe o resultado. Parece simples, mas tem muita coisa acontecendo entre uma coisa e a outra.',
-  },
-  {
-    id: 'emulator',
-    label: 'Terminal Emulator',
-    color: '#58a6ff',
-    accent: 'rgba(88,166,255,0.15)',
-    icon: '🖥',
-    tools: ['Alacritty', 'Kitty', 'WezTerm', 'Windows Terminal', 'iTerm2'],
-    desc: 'Renderiza texto, recebe input, suporta cores e fontes.',
-    details: 'Não interpreta comandos — só exibe. É a janela. Faz renderização de texto com cores ANSI, suporta fontes (Nerd Fonts), e conecta seu teclado ao shell via pseudo-terminal (PTY).',
-  },
-  {
-    id: 'multiplexer',
-    label: 'Multiplexer',
-    color: '#bc8cff',
-    accent: 'rgba(188,140,255,0.15)',
-    icon: '⊞',
-    tools: ['tmux', 'zellij'],
-    desc: 'Sessões persistentes, splits, múltiplas janelas.',
-    details: 'Fica entre o emulador e o shell. Permite ter múltiplos terminais na mesma janela, sessões que sobrevivem ao disconnect, e trabalho remoto via SSH sem perder contexto.',
-    optional: true,
-  },
-  {
-    id: 'shell',
-    label: 'Shell',
-    color: '#3fb950',
-    accent: 'rgba(63,185,80,0.15)',
-    icon: '$',
-    tools: ['bash', 'zsh', 'fish', 'powershell'],
-    desc: 'Interpreta comandos, roda programas, gerencia variáveis.',
-    details: 'O coração do terminal. Recebe o texto que você digitou, faz o parse, e executa programas. Gerencia variáveis de ambiente, aliases, histórico, e permite scripting.',
-  },
-  {
-    id: 'framework',
-    label: 'Shell Framework',
-    color: '#ff9442',
-    accent: 'rgba(255,148,66,0.15)',
-    icon: '⚙',
-    tools: ['Oh My Zsh', 'Prezto', 'Starship', 'Powerlevel10k'],
-    desc: 'Plugins, temas e configuração do shell.',
-    details: 'Não é um shell — é configuração. Oh My Zsh por exemplo adiciona plugins (git, docker, kubectl), temas (Powerlevel10k) e gerencia o .zshrc. Starship é um prompt cross-shell.',
-    optional: true,
-  },
-  {
-    id: 'cli',
-    label: 'Programas CLI',
-    color: '#39d353',
-    accent: 'rgba(57,211,83,0.15)',
-    icon: '>_',
-    tools: ['git', 'docker', 'kubectl', 'grep', 'vim', 'terraform', 'node'],
-    desc: 'As ferramentas que você realmente usa.',
-    details: 'Executáveis que o shell chama. Recebem argumentos, leem stdin, escrevem em stdout/stderr. Cada um faz uma coisa bem feita (princípio Unix). Podem ser encadeados com pipes.',
-  },
-  {
-    id: 'kernel',
-    label: 'Kernel / OS',
-    color: '#f85149',
-    accent: 'rgba(248,81,73,0.15)',
-    icon: '◎',
-    tools: ['Linux', 'macOS', 'Windows'],
-    desc: 'Gerencia processos, filesystem, hardware.',
-    details: 'A camada mais baixa que você interage indiretamente. Syscalls, file descriptors, processos, memória. Todo programa CLI faz chamadas ao kernel para ler arquivos, criar processos, etc.',
-  },
-]
+// Static non-translatable data per layer id
+const LAYER_STATIC = {
+  user:       { color: '#e6edf3', accent: 'rgba(230,237,243,0.15)', icon: '⌨',  tools: ['Teclado', 'Monitor'] },
+  emulator:   { color: '#58a6ff', accent: 'rgba(88,166,255,0.15)',  icon: '🖥',  tools: ['Alacritty', 'Kitty', 'WezTerm', 'Windows Terminal', 'iTerm2'] },
+  multiplexer:{ color: '#bc8cff', accent: 'rgba(188,140,255,0.15)', icon: '⊞',  tools: ['tmux', 'zellij'], optional: true },
+  shell:      { color: '#3fb950', accent: 'rgba(63,185,80,0.15)',   icon: '$',   tools: ['bash', 'zsh', 'fish', 'powershell'] },
+  framework:  { color: '#ff9442', accent: 'rgba(255,148,66,0.15)',  icon: '⚙',  tools: ['Oh My Zsh', 'Prezto', 'Starship', 'Powerlevel10k'], optional: true },
+  cli:        { color: '#39d353', accent: 'rgba(57,211,83,0.15)',   icon: '>_', tools: ['git', 'docker', 'kubectl', 'grep', 'vim', 'terraform', 'node'] },
+  kernel:     { color: '#f85149', accent: 'rgba(248,81,73,0.15)',   icon: '◎',  tools: ['Linux', 'macOS', 'Windows'] },
+}
 
 function ToolChip({ name, large }) {
   const url = TOOL_LINKS[name]
@@ -125,18 +63,26 @@ function ToolChip({ name, large }) {
 }
 
 export default function LayerDiagram() {
+  const { lang, t } = useLang()
+  const lt = t.layers
   const [active, setActive] = useState(null)
+
+  // Merge static data with translated strings
+  const LAYERS = layerTranslations[lang].map(tr => ({
+    ...LAYER_STATIC[tr.id],
+    ...tr,
+  }))
+
   const activeLayer = LAYERS.find(l => l.id === active)
 
   return (
-    <section>
-      <div className="section-label">diagrama principal</div>
+    <section id="layers">
+      <div className="section-label">{lt.label}</div>
       <h2 className="section-title">
-        As <span>camadas</span> do terminal
+        {lt.title} <span>{lt.titleSpan}</span> {lt.titleEnd}
       </h2>
       <p className="section-desc">
-        Terminal é essencialmente isso — camadas. Cada uma com uma responsabilidade clara.
-        Clique em cada camada para entender o papel dela.
+        {lt.desc}
       </p>
 
       <div className="layer-layout">
@@ -153,7 +99,7 @@ export default function LayerDiagram() {
                   <div className="layer-info">
                     <div className="layer-name">
                       {layer.label}
-                      {layer.optional && <span className="layer-optional">opcional</span>}
+                      {layer.optional && <span className="layer-optional">{lt.optional}</span>}
                     </div>
                     <div className="layer-desc">{layer.desc}</div>
                   </div>
@@ -187,10 +133,10 @@ export default function LayerDiagram() {
               </div>
               <p className="detail-text">{activeLayer.details}</p>
               <div className="detail-tools">
-                <div className="detail-tools-label mono">ferramentas</div>
+                <div className="detail-tools-label mono">{lt.toolsLabel}</div>
                 <div className="detail-tools-list">
-                  {activeLayer.tools.map(t => (
-                    <ToolChip key={t} name={t} large />
+                  {activeLayer.tools.map(tool => (
+                    <ToolChip key={tool} name={tool} large />
                   ))}
                 </div>
               </div>
@@ -198,7 +144,7 @@ export default function LayerDiagram() {
           ) : (
             <div className="detail-placeholder">
               <span>←</span>
-              <p>Clique em uma camada para ver os detalhes</p>
+              <p>{lt.placeholder}</p>
             </div>
           )}
         </div>

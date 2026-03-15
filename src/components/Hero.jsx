@@ -1,6 +1,10 @@
+import { useLang } from '../LanguageContext'
 import './Hero.css'
 
 export default function Hero() {
+  const { t } = useLang()
+  const h = t.hero
+
   return (
     <div className="hero">
       <div className="hero-bg">
@@ -12,19 +16,17 @@ export default function Hero() {
       <div className="hero-content">
         <div className="hero-badge">
           <span className="hero-badge-dot" />
-          ecossistema de terminal
+          {h.badge}
         </div>
 
         <h1 className="hero-title">
-          Você usa terminal.<br />
-          Mas usa <span className="hero-highlight">5 softwares</span><br />
-          ao mesmo tempo.
+          {h.title1}<br />
+          {h.title2} <span className="hero-highlight">{h.highlight}</span><br />
+          {h.title3}
         </h1>
 
         <p className="hero-sub">
-          Terminal, shell, multiplexer, framework, ferramentas CLI —
-          cada camada tem um papel. Vamos destrinchar o ecossistema
-          completo de forma visual.
+          {h.sub}
         </p>
 
         <div className="hero-stack">

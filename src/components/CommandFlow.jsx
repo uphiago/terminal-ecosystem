@@ -1,127 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useLang } from '../LanguageContext'
+import { stepTranslations } from '../i18n'
 import './CommandFlow.css'
 
-const STEPS = [
-  {
-    id: 'keyboard',
-    label: 'Teclado',
-    sublabel: 'hardware input',
-    icon: '⌨',
-    color: '#e6edf3',
-    direction: 'down',
-    payload: 'g i t   s t a t u s ⏎',
-    payloadLabel: 'keycodes',
-    desc: 'Você pressiona as teclas. O hardware gera scan codes que o SO converte em caracteres.',
-    detail: [
-      { label: 'evento', value: 'KeyDown → KeyUp' },
-      { label: 'scan codes', value: '22 09 20 — 1f 20 1b 20 1c 15 1f' },
-      { label: 'destino', value: 'Terminal Emulator via OS input system' },
-    ],
-  },
-  {
-    id: 'emulator',
-    label: 'Terminal Emulator',
-    sublabel: 'Alacritty / Kitty / WezTerm',
-    icon: '🖥',
-    color: '#58a6ff',
-    direction: 'down',
-    payload: '"git status\\n"',
-    payloadLabel: 'string UTF-8',
-    desc: 'O emulador captura o input e escreve os bytes no master end do PTY. Também renderiza o echo na tela.',
-    detail: [
-      { label: 'mecanismo', value: 'PTY (pseudo-terminal)' },
-      { label: 'escreve em', value: '/dev/pts/N (master)' },
-      { label: 'também faz', value: 'render do echo, suporte ANSI' },
-    ],
-  },
-  {
-    id: 'shell',
-    label: 'Shell',
-    sublabel: 'zsh / bash',
-    icon: '$_',
-    color: '#3fb950',
-    direction: 'down',
-    payload: 'argv = ["git", "status"]',
-    payloadLabel: 'parsed command',
-    desc: 'O shell lê do slave end do PTY, faz tokenização e parse, expande variáveis/aliases, resolve o PATH.',
-    detail: [
-      { label: 'lê de', value: '/dev/pts/N (slave)' },
-      { label: 'parse', value: 'tokenize → expand → lookup PATH' },
-      { label: 'encontra', value: '/usr/bin/git via $PATH' },
-    ],
-  },
-  {
-    id: 'fork',
-    label: 'fork() + exec()',
-    sublabel: 'processo filho',
-    icon: '⑂',
-    color: '#bc8cff',
-    direction: 'down',
-    payload: 'pid = fork()\nexecve("/usr/bin/git", …)',
-    payloadLabel: 'syscalls',
-    desc: 'Shell chama fork() para criar um processo filho, depois execve() para carregar o binário git no espaço do filho.',
-    detail: [
-      { label: 'fork()', value: 'duplica o processo do shell' },
-      { label: 'execve()', value: 'substitui imagem pelo binário git' },
-      { label: 'stdin/out/err', value: 'herdados do shell (PTY)' },
-    ],
-  },
-  {
-    id: 'kernel',
-    label: 'Kernel',
-    sublabel: 'Linux / macOS',
-    icon: '◎',
-    color: '#ff9442',
-    direction: 'down',
-    payload: 'open(".git/HEAD")\nread() → stat()',
-    payloadLabel: 'syscalls',
-    desc: 'git faz syscalls ao kernel para acessar o filesystem: open, read, stat, getdents nos objetos do repositório.',
-    detail: [
-      { label: 'syscalls', value: 'open(), read(), stat(), getdents()' },
-      { label: 'VFS', value: 'Virtual Filesystem abstrai o disco' },
-      { label: 'retorna', value: 'file descriptors + bytes lidos' },
-    ],
-  },
-  {
-    id: 'filesystem',
-    label: 'Filesystem',
-    sublabel: 'pasta .git',
-    icon: '📁',
-    color: '#39d353',
-    direction: 'up',
-    payload: '.git/HEAD\n.git/index\n.git/refs/…',
-    payloadLabel: 'arquivos lidos',
-    desc: 'O kernel acessa o disco e retorna os dados do repositório: HEAD aponta para o branch, index tem o staging area.',
-    detail: [
-      { label: '.git/HEAD', value: 'ref: refs/heads/main' },
-      { label: '.git/index', value: 'staging area (arquivos tracked)' },
-      { label: 'diff', value: 'compara working tree vs index' },
-    ],
-  },
-  {
-    id: 'output',
-    label: 'Output',
-    sublabel: 'stdout → PTY → tela',
-    icon: '▶',
-    color: '#58a6ff',
-    direction: 'up',
-    payload: 'On branch main\nnothing to commit',
-    payloadLabel: 'bytes ANSI',
-    desc: 'git escreve em stdout (o PTY slave). O kernel entrega ao emulador (master). O emulador interpreta ANSI e renderiza.',
-    detail: [
-      { label: 'git escreve', value: 'stdout → PTY slave' },
-      { label: 'kernel entrega', value: 'PTY master → emulador' },
-      { label: 'emulador', value: 'interpreta ANSI → renderiza pixels' },
-    ],
-  },
-]
+// Static non-translatable data per step id
+const STEP_STATIC = {
+  keyboard:   { icon: '⌨',  color: '#e6edf3', direction: 'down',  payload: 'g i t   s t a t u s ⏎' },
+  emulator:   { icon: '🖥',  color: '#58a6ff', direction: 'down',  payload: '"git status\\n"' },
+  shell:      { icon: '$_', color: '#3fb950', direction: 'down',  payload: 'argv = ["git", "status"]' },
+  fork:       { icon: '⑂',  color: '#bc8cff', direction: 'down',  payload: 'pid = fork()\nexecve("/usr/bin/git", …)' },
+  kernel:     { icon: '◎',  color: '#ff9442', direction: 'down',  payload: 'open(".git/HEAD")\nread() → stat()' },
+  filesystem: { icon: '📁', color: '#39d353', direction: 'up',    payload: '.git/HEAD\n.git/index\n.git/refs/…' },
+  output:     { icon: '▶',  color: '#58a6ff', direction: 'up',    payload: 'On branch main\nnothing to commit' },
+}
 
 const STEP_DURATION = 1800
 
 export default function CommandFlow() {
+  const { lang, t } = useLang()
+  const ft = t.flow
   const [active, setActive] = useState(0)
   const [pulse, setPulse] = useState(false)
   const timerRef = useRef(null)
+
+  // Merge static data with translated strings
+  const STEPS = stepTranslations[lang].map(tr => ({
+    ...STEP_STATIC[tr.id],
+    ...tr,
+  }))
+
   const total = STEPS.length
 
   const goTo = useCallback((i) => {
@@ -160,13 +67,13 @@ export default function CommandFlow() {
   const current = STEPS[active]
 
   return (
-    <section className="flow-section">
-      <div className="section-label">fluxo de execução</div>
+    <section id="flow" className="flow-section">
+      <div className="section-label">{ft.label}</div>
       <h2 className="section-title">
-        O que acontece quando você digita <span>git status</span>
+        {ft.title} <span>git status</span>
       </h2>
       <p className="section-desc">
-        Passo a passo desde o teclado até o filesystem e de volta ao terminal.
+        {ft.desc}
       </p>
 
       <div className="flow-root">
@@ -236,7 +143,7 @@ export default function CommandFlow() {
           <div className="flow-detail-inner">
             <div className="fd-header">
               <div className="fd-step mono" style={{ color: current.color }}>
-                passo {active + 1} / {total}
+                {ft.step} {active + 1} / {total}
               </div>
               <div className="fd-icon mono" style={{ color: current.color }}>{current.icon}</div>
               <div className="fd-title">{current.label}</div>

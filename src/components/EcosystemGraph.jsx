@@ -11,6 +11,7 @@ import {
   Position,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
+import { useLang } from '../LanguageContext'
 import './EcosystemGraph.css'
 
 const CATEGORY_COLORS = {
@@ -60,7 +61,7 @@ function ToolNode({ data }) {
       className={`tool-node ${url ? 'has-link' : ''}`}
       style={{ '--c': color }}
       onClick={handleClick}
-      title={url ? `Abrir ${data.label} no GitHub ↗` : data.label}
+      title={url ? `${data.label} ↗` : data.label}
     >
       <Handle type="target" position={Position.Top} />
       <div className="tool-node-inner">
@@ -216,6 +217,8 @@ const initialEdges = [
 ]
 
 export default function EcosystemGraph() {
+  const { t } = useLang()
+  const gt = t.graph
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
 
@@ -225,13 +228,13 @@ export default function EcosystemGraph() {
   )
 
   return (
-    <section className="graph-section">
-      <div className="section-label">ecossistema completo</div>
+    <section id="graph" className="graph-section">
+      <div className="section-label">{gt.label}</div>
       <h2 className="section-title">
-        O mapa de <span>tudo</span>
+        {gt.title} <span>{gt.titleSpan}</span>
       </h2>
       <p className="section-desc">
-        Todas as ferramentas e suas conexões. Arraste, zoom, explore.
+        {gt.desc}
       </p>
 
       <div className="legend">
