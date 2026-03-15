@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@xyflow/react": "^12.3.6",
     "geist": "^1.7.0",
     "react": "^18.3.1",

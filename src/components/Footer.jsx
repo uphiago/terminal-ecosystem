@@ -24,7 +24,18 @@ export default function Footer() {
 
       <div className="footer-right">
         <a
-          href="https://github.com/uphiago/terminal-ecosystem"
+          href="https://cloud.umami.is/share/a7ea395c-60eb-4a4f-9c33-4af00bc02b9f/shellcraft"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="footer-stats"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          {f.stats}
+        </a>
+        <a
+          href="https://github.com/uphiago/shellcraft"
           target="_blank"
           rel="noopener noreferrer"
           className="footer-github"

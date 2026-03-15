@@ -55,6 +55,30 @@
   gap: 16px;
 }
 
+.footer-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.footer-stats:hover {
+  color: rgba(63, 185, 80, 0.8);
+}
+
+.footer-stats svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.footer-stats:hover svg {
+  opacity: 1;
+}
+
 .footer-github {
   display: flex;
   align-items: center;

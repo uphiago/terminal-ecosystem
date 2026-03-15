@@ -38,6 +38,7 @@ export const translations = {
       navFlow: 'Fluxo',
       navGraph: 'Mapa',
       github: 'GitHub',
+      stats: 'Stats',
     },
   },
   'en': {
@@ -79,6 +80,7 @@ export const translations = {
       navFlow: 'Flow',
       navGraph: 'Map',
       github: 'GitHub',
+      stats: 'Stats',
     },
   },
 }
