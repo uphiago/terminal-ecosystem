@@ -24,7 +24,7 @@ export default function Footer() {
 
       <div className="footer-right">
         <a
-          href="https://cloud.umami.is/share/a7ea395c-60eb-4a4f-9c33-4af00bc02b9f/shellcraft"
+          href="https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW"
           target="_blank"
           rel="noopener noreferrer"
           className="footer-stats"
