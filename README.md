@@ -1,15 +1,14 @@
-# terminal ecosystem
+# shellcraft
 
-> A visual, interactive reference for the full terminal stack — built as a companion to the YouTube channel.
+Interactive web companion to the [terminal ecosystem video series](https://youtube.com/@uphiago). Maps every layer between your keyboard and the kernel — with animations, tool links, and PT-BR / EN support.
 
-**[shellcraft.vercel.app](https://shellcraft.vercel.app)** · [YouTube](https://youtube.com/@uphiago) · [X @uphiago](https://x.com/uphiago)
+**Live:** [shellcraft.vercel.app](https://shellcraft.vercel.app) · [YouTube](https://youtube.com/@uphiago) · [X](https://x.com/uphiago)
 
 ---
 
-## What it covers
+## What's inside
 
-### 1 — Layers diagram
-Interactive breakdown of every layer between you and the kernel. Click any row to expand details, facts, misconceptions, and tool links.
+**Layers diagram** — click any row to expand details, facts, misconceptions, and tool links for that layer.
 
 ```
 ⌨  User
@@ -21,14 +20,9 @@ $  Shell               →  parses commands, fork()+execve()
 ◎  Kernel / OS         →  syscalls, VFS, process management
 ```
 
-### 2 — Execution flow
-Animated, step-by-step walkthrough of `git status` — from the physical keypress through PTY, shell, fork, kernel syscalls, filesystem, and back to the screen. Auto-plays when scrolled into view, pauses when you leave.
+**Execution flow** — animated walkthrough of `git status`, from keypress → PTY → shell → fork → syscalls → filesystem → screen. Starts only when scrolled into view.
 
-### 3 — Ecosystem map
-Interactive node graph of 20+ tools and their connections. Locked by default (so it doesn't hijack page scroll); click **unlock** to drag, zoom and explore. Every node links to its GitHub repo.
-
-### i18n
-Full **PT-BR / EN** support. Toggle in the top-right corner.
+**Ecosystem map** — interactive node graph of 20+ tools. Locked by default (won't hijack scroll); click unlock to drag and zoom.
 
 ---
 
@@ -53,7 +47,7 @@ Full **PT-BR / EN** support. Toggle in the top-right corner.
 | Graph | [React Flow (@xyflow/react)](https://reactflow.dev/) |
 | Font | [Geist](https://vercel.com/font) — Geist, GeistMono, GeistPixel |
 | Styling | Zero UI framework — custom CSS, glassmorphism |
-| Analytics | [Vercel Analytics](https://vercel.com/analytics) + [Umami](https://umami.is) (self-hostable, privacy-first) |
+| Analytics | [Vercel Analytics](https://vercel.com/analytics) + [Umami](https://umami.is) (self-hosted, privacy-first, no cookies) |
 | Deploy | [Vercel](https://vercel.com) — auto-deploy on push to `main` |
 
 ---
@@ -69,35 +63,26 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
-## Build & preview
-
 ```bash
 npm run build    # outputs to dist/
 npm run preview  # serves the built output locally
 ```
 
-## Deploy
+## Deploy your own
 
-The project is deployed on **Vercel**. Every push to `main` triggers an automatic deployment.
-
-To deploy your own fork:
+Connect the repo in the [Vercel dashboard](https://vercel.com/new) — zero config needed for Vite. Or via CLI:
 
 ```bash
-npm i -g vercel
-vercel
+npm i -g vercel && vercel
 ```
-
-Or connect the repo directly in the [Vercel dashboard](https://vercel.com/new) — zero config needed for Vite projects.
 
 ---
 
 ## Analytics
 
-- **Vercel Analytics** — Web Vitals and visit data, built into the deployment.
-- **Umami** — privacy-first, cookie-free analytics. Public stats dashboard: [cloud.umami.is/share/…](https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW)
+- **Vercel Analytics** — Web Vitals and traffic, built into the deployment.
+- **Umami** — cookie-free, open-source. Public dashboard: [cloud.umami.is/share/…](https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW)
 
 ---
-
-## License
 
 MIT
