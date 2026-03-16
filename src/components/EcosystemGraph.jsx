@@ -7,7 +7,6 @@ import {
   Background,
   Controls,
   MiniMap,
-  Panel,
   Handle,
   Position,
 } from '@xyflow/react'
@@ -245,8 +244,6 @@ export default function EcosystemGraph() {
   const gt = t.graph
   const [nodes, setNodes, onNodesChange] = useNodesState(buildNodes(lang))
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
-  const [locked, setLocked] = useState(true)
-
   useEffect(() => {
     setNodes(buildNodes(lang))
   }, [lang])
@@ -286,12 +283,6 @@ export default function EcosystemGraph() {
           minZoom={0.3}
           maxZoom={2}
           proOptions={{ hideAttribution: true }}
-          panOnDrag={!locked}
-          zoomOnScroll={!locked}
-          zoomOnPinch={!locked}
-          zoomOnDoubleClick={!locked}
-          nodesDraggable={!locked}
-          preventScrolling={!locked}
         >
           <Background color="rgba(255,255,255,0.04)" gap={24} />
           <Controls />
@@ -300,15 +291,6 @@ export default function EcosystemGraph() {
             maskColor="rgba(7,9,15,0.8)"
             style={{ background: 'rgba(13,17,23,0.9)', border: '1px solid rgba(255,255,255,0.08)' }}
           />
-          <Panel position="top-right">
-            <button
-              className="graph-lock-btn"
-              onClick={() => setLocked(l => !l)}
-              title={locked ? 'Unlock to pan & zoom' : 'Lock'}
-            >
-              {locked ? '🔒' : '🔓'}
-            </button>
-          </Panel>
         </ReactFlow>
       </div>
     </section>
