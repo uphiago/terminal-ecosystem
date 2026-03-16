@@ -97,7 +97,7 @@
 
 .layer-optional {
   font-size: 10px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'GeistMono', monospace;
   color: var(--text-muted);
   background: rgba(255,255,255,0.06);
   padding: 2px 8px;
@@ -163,14 +163,30 @@
   scrollbar-color: rgba(255,255,255,0.08) transparent;
   border-radius: 14px;
   border: 1px solid var(--glass-border);
+  border-top: 2px solid var(--color);
   background: rgba(255,255,255,0.015);
   backdrop-filter: blur(14px);
 }
 
+.layer-detail::-webkit-scrollbar {
+  width: 4px;
+}
+.layer-detail::-webkit-scrollbar-track {
+  background: transparent;
+}
+.layer-detail::-webkit-scrollbar-button {
+  display: none;
+}
+.layer-detail::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+.layer-detail::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
 /* content cross-fade */
 .detail-inner {
-  border-radius: 14px;
-  border-top: 2px solid var(--color);
   animation: detailFade 0.22s ease;
 }
 

@@ -206,8 +206,8 @@ export default function LayerDiagram() {
           ))}
         </div>
 
-        <div className="layer-detail" style={panelHeight ? { height: panelHeight } : undefined}>
-          <div key={activeLayer.id} className="detail-inner" style={{ '--color': activeLayer.color }}>
+        <div className="layer-detail" style={{ ...(panelHeight ? { height: panelHeight } : {}), '--color': activeLayer.color }}>
+          <div key={activeLayer.id} className="detail-inner">
             {/* header */}
             <div className="detail-header">
               <div className="detail-header-left">

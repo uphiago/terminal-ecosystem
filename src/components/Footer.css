@@ -28,26 +28,6 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-.footer-nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.footer-nav-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.35);
-  padding: 0;
-  transition: color 0.2s;
-  font-family: inherit;
-}
-
-.footer-nav-link:hover {
-  color: rgba(255, 255, 255, 0.7);
-}
 
 .footer-right {
   display: flex;

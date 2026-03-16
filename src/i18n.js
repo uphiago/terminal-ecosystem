@@ -34,9 +34,6 @@ export const translations = {
     footer: {
       brand: 'terminal ecosystem',
       tagline: 'Made with ❤️ for devs',
-      navLayers: 'Camadas',
-      navFlow: 'Fluxo',
-      navGraph: 'Mapa',
       github: 'GitHub',
       stats: 'Stats',
     },
@@ -76,9 +73,6 @@ export const translations = {
     footer: {
       brand: 'terminal ecosystem',
       tagline: 'Made with ❤️ for devs',
-      navLayers: 'Layers',
-      navFlow: 'Flow',
-      navGraph: 'Map',
       github: 'GitHub',
       stats: 'Stats',
     },
