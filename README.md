@@ -5,7 +5,7 @@
 [![Vite](https://img.shields.io/badge/vite-6-646cff?logo=vite&logoColor=white)](https://vitejs.dev)
 [![Vercel](https://img.shields.io/github/deployments/uphiago/shellcraft/production?label=vercel&logo=vercel&logoColor=white)](https://shellcraft.vercel.app)
 
-Maps every layer between your keyboard and the kernel — interactive diagrams, animated execution flow, and tool links. PT-BR / EN.
+Maps every layer between your keyboard and the kernel: interactive diagrams, animated execution flow, and tool links. PT-BR / EN.
 
 **Live:** [shellcraft.vercel.app](https://shellcraft.vercel.app)
 
@@ -13,7 +13,7 @@ Maps every layer between your keyboard and the kernel — interactive diagrams, 
 
 ## What's inside
 
-**Layers diagram** — click any row to expand details, facts, misconceptions, and tool links for that layer.
+**Layers diagram:** click any row to expand details, facts, misconceptions, and tool links for that layer.
 
 ```
 ⌨  User
@@ -25,9 +25,9 @@ $  Shell               →  parses commands, fork()+execve()
 ◎  Kernel / OS         →  syscalls, VFS, process management
 ```
 
-**Execution flow** — animated walkthrough of `git status`, from keypress → PTY → shell → fork → syscalls → filesystem → screen. Starts only when scrolled into view.
+**Execution flow:** animated walkthrough of `git status`, from keypress → PTY → shell → fork → syscalls → filesystem → screen. Starts only when scrolled into view.
 
-**Ecosystem map** — interactive node graph of 20+ tools. Locked by default (won't hijack scroll); click unlock to drag and zoom.
+**Ecosystem map:** interactive node graph of 20+ tools. Locked by default (won't hijack scroll); click unlock to drag and zoom.
 
 ---
 
@@ -50,10 +50,10 @@ $  Shell               →  parses commands, fork()+execve()
 |---|---|
 | Framework | [Vite](https://vitejs.dev/) + [React 18](https://react.dev/) |
 | Graph | [React Flow (@xyflow/react)](https://reactflow.dev/) |
-| Font | [Geist](https://vercel.com/font) — Geist, GeistMono, GeistPixel |
-| Styling | Zero UI framework — custom CSS, glassmorphism |
+| Font | [Geist](https://vercel.com/font): Geist, GeistMono, GeistPixel |
+| Styling | Zero UI framework, custom CSS, glassmorphism |
 | Analytics | [Vercel Analytics](https://vercel.com/analytics) + [Umami](https://umami.is) (self-hosted, privacy-first, no cookies) |
-| Deploy | [Vercel](https://vercel.com) — auto-deploy on push to `main` |
+| Deploy | [Vercel](https://vercel.com), auto-deploy on push to `main` |
 
 ---
 
@@ -75,7 +75,7 @@ npm run preview  # serves the built output locally
 
 ## Deploy your own
 
-Connect the repo in the [Vercel dashboard](https://vercel.com/new) — zero config needed for Vite. Or via CLI:
+Connect the repo in the [Vercel dashboard](https://vercel.com/new), zero config needed for Vite. Or via CLI:
 
 ```bash
 npm i -g vercel && vercel
@@ -85,8 +85,8 @@ npm i -g vercel && vercel
 
 ## Analytics
 
-- **Vercel Analytics** — Web Vitals and traffic, built into the deployment.
-- **Umami** — cookie-free, open-source. Public dashboard: [cloud.umami.is/share/…](https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW)
+- **Vercel Analytics:** Web Vitals and traffic, built into the deployment.
+- **Umami:** cookie-free, open-source. Public dashboard: [cloud.umami.is/share/…](https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW)
 
 ---
 
