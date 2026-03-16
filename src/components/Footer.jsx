@@ -12,6 +12,8 @@ export default function Footer() {
         <span className="footer-tagline">{f.tagline}</span>
       </div>
 
+      <span className="footer-made">made with love for devs, by <a href="https://x.com/uphiago" target="_blank" rel="noopener noreferrer">uphiago</a></span>
+
       <div className="footer-right">
         <a
           href="https://cloud.umami.is/analytics/us/share/ZeYEV3VCguX4ldQW"
