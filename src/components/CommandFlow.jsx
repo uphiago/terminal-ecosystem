@@ -86,6 +86,7 @@ export default function CommandFlow() {
       <p className="section-desc">
         {ft.desc}
       </p>
+      <div className="flow-kernel-note mono">{ft.kernelNote}</div>
 
       <div className="flow-root">
         {/* Pipeline vertical */}

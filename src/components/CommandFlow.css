@@ -1,3 +1,18 @@
+/* kernel note */
+.flow-kernel-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #ff9442;
+  background: rgba(255,148,66,0.06);
+  border: 1px solid rgba(255,148,66,0.18);
+  border-radius: 6px;
+  padding: 5px 12px;
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+
 /* ── root layout ── */
 .flow-root {
   display: grid;

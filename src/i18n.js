@@ -23,6 +23,7 @@ export const translations = {
       label: 'fluxo de execução',
       title: 'O que acontece quando você digita',
       desc: 'Passo a passo desde o teclado até o filesystem e de volta ao terminal.',
+      kernelNote: '◎ o kernel media cada etapa — leituras PTY, fork(), syscalls, filesystem',
       step: 'passo',
     },
     graph: {
@@ -62,6 +63,7 @@ export const translations = {
       label: 'execution flow',
       title: 'What happens when you type',
       desc: 'Step by step from keyboard to filesystem and back to the terminal.',
+      kernelNote: '◎ the kernel mediates every step — PTY reads/writes, fork(), syscalls, filesystem',
       step: 'step',
     },
     graph: {

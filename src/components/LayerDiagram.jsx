@@ -207,6 +207,8 @@ export default function LayerDiagram() {
         </div>
 
         <div className="layer-detail" style={{ ...(panelHeight ? { height: panelHeight } : {}), '--color': activeLayer.color }}>
+          <div className="layer-detail-accent" />
+          <div className="layer-detail-scroll">
           <div key={activeLayer.id} className="detail-inner">
             {/* header */}
             <div className="detail-header">
@@ -269,6 +271,7 @@ export default function LayerDiagram() {
                 </div>
               </div>
             )}
+          </div>
           </div>
         </div>
       </div>
