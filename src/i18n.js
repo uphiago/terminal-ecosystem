@@ -128,7 +128,7 @@ export const layerTranslations = {
         'Ambos permitem detach/attach - feche o terminal e reconecte sem perder o trabalho',
         'tmux -CC: modo especial para integração nativa com iTerm2',
       ],
-      misconception: 'O multiplexer NÃO é parte do emulador nem do shell. É uma camada separada que gerencia pseudo-terminais adicionais.',
+      misconception: 'Tecnicamente, o multiplexer também cria seus próprios pares PTY — ele próprio atua como emulador para o shell. A distinção aqui é funcional: enquanto o emulador renderiza pixels na tela, o multiplexer gerencia sessões e layouts sem renderizar nada.',
       toolDetails: [
         { name: 'tmux', desc: 'C, ISC license. Padrão da indústria. Prefix key (Ctrl+b). Plugin ecosystem via TPM.' },
         { name: 'zellij', desc: 'Rust, MIT. Interface visível (sem memorizar atalhos). Plugins WASM. Mais amigável.' },
@@ -165,6 +165,7 @@ export const layerTranslations = {
         'Powerlevel10k usa um daemon C++ (gitstatus) para mostrar status git sem lentidão',
         'Starship detecta contexto: linguagem, versão, branch git, cloud context - tudo no prompt',
         'Nota: Powerlevel10k está sem manutenção desde 2024. O autor recomenda migrar para Starship.',
+        'Nem tudo é só startup: plugins de completion e key bindings afetam cada interação. Starship roda em todo prompt render.',
       ],
       misconception: 'Oh My Zsh NÃO é um shell. É um framework de configuração do zsh. Você ainda está rodando zsh, só com mais recursos.',
       toolDetails: [
@@ -265,7 +266,7 @@ export const layerTranslations = {
         'Both support detach/attach - close terminal and reconnect without losing work',
         'tmux -CC: special mode for native integration with iTerm2',
       ],
-      misconception: 'The multiplexer is NOT part of the emulator or shell. It is a separate layer managing additional pseudo-terminals.',
+      misconception: 'Technically, the multiplexer also creates its own PTY pairs — it acts as a terminal emulator for the shell. The distinction here is functional: the emulator renders pixels on screen, while the multiplexer manages sessions and layouts without rendering anything.',
       toolDetails: [
         { name: 'tmux', desc: 'C, ISC license. Industry standard. Prefix key (Ctrl+b). Plugin ecosystem via TPM.' },
         { name: 'zellij', desc: 'Rust, MIT. Visible UI (no memorizing shortcuts). WASM plugins. More approachable.' },
@@ -302,6 +303,7 @@ export const layerTranslations = {
         'Powerlevel10k uses a C++ daemon (gitstatus) to show git status without slowdown',
         'Starship detects context: language, version, git branch, cloud context - all in the prompt',
         'Note: Powerlevel10k is unmaintained since 2024. The author recommends migrating to Starship.',
+        'Not just startup: completion plugins and key bindings affect every interaction. Starship runs on every prompt render.',
       ],
       misconception: 'Oh My Zsh is NOT a shell. It\'s a zsh configuration framework. You\'re still running zsh, just with extra features.',
       toolDetails: [
