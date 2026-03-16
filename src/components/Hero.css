@@ -1,5 +1,6 @@
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,8 +134,8 @@
 .hero-scroll-hint {
   position: absolute;
   bottom: 48px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,8 +145,8 @@
 }
 
 @keyframes hintFloat {
-  0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.55; }
-  50%       { transform: translateX(-50%) translateY(4px); opacity: 0.9; }
+  0%, 100% { transform: translateY(0);   opacity: 0.55; }
+  50%       { transform: translateY(4px); opacity: 0.9; }
 }
 
 .scroll-line {
@@ -164,13 +165,7 @@
 
 /* ── mobile ── */
 @media (max-width: 600px) {
-  .hero {
-    padding: 60px 24px;
-  }
-  .hero-sub {
-    font-size: 15px;
-  }
-  .hero-scroll-hint {
-    bottom: 72px;
-  }
+  .hero { padding: 60px 24px; min-height: 100svh; }
+  .hero-sub { font-size: 15px; }
+  .hero-scroll-hint { bottom: calc(env(safe-area-inset-bottom, 0px) + 28px); }
 }
